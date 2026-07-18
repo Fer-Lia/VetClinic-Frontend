@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  --color-background: #f4f6fb;
+  --color-foreground: #1c2033;
+  --color-card: #ffffff;
+  --color-primary: #4369e8;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #eef1fb;
+  --color-muted-foreground: #7c82a0;
+  --color-destructive: #e03e3e;
+  --color-border: rgba(28, 32, 51, 0.08);
+  --radius: 0.625rem;
+
+  --font-titulo: 'DM Sans', sans-serif;
+  --font-texto: 'Inter', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-texto);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-titulo);
+}
