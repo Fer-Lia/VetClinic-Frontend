@@ -1,16 +1,11 @@
 import { useEffect } from 'react'
+import { obtenerClientes } from './services/clienteService'
 
 function App() {
   useEffect(() => {
     let ignore = false
 
-    fetch(`${import.meta.env.VITE_API_URL}/clientes`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`Error HTTP: ${response.status}`)
-        }
-        return response.json()
-      })
+    obtenerClientes()
       .then((data) => {
         if (!ignore) {
           console.log('Clientes:', data)
