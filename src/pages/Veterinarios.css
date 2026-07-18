@@ -1,0 +1,47 @@
+.pagina-veterinarios {
+  padding: 1.5rem;
+}
+
+.veterinarios-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.veterinarios-header h1 {
+  font-size: 1.5rem;
+}
+
+.veterinarios-subtitulo {
+  color: var(--color-muted-foreground);
+  font-size: 0.875rem;
+}
+
+.veterinarios-acciones {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.grid-veterinarios {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.tarjeta-veterinario {
+  background-color: var(--color-card);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 3px rgba(28, 32, 51, 0.06);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.veterinario-cabecera {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
