@@ -63,10 +63,11 @@
   display: flex;
   align-items: center;
   gap: 0.25rem;
+  margin-top: 0.375rem;
 }
 
 .contacto-linea:first-child {
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .badge-mascotas {

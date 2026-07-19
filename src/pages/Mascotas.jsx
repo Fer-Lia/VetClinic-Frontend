@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Search, Plus, Pencil } from 'lucide-react'
+import { Search, Plus, Pencil, PawPrint } from 'lucide-react'
 import { obtenerMascotas } from '../services/mascotaService'
 import { obtenerClientes } from '../services/clienteService'
 import './Mascotas.css'
@@ -101,7 +101,14 @@ function Mascotas() {
         <tbody>
           {mascotasFiltradas.map((mascota) => (
             <tr key={mascota.id_mascota}>
-              <td>{mascota.nombre}</td>
+              <td>
+                <div className="mascota-info">
+                  <span className="avatar-mascota">
+                    <PawPrint size={16} />
+                  </span>
+                  {mascota.nombre}
+                </div>
+              </td>
               <td>{mascota.raza}</td>
               <td>{nombreDueño(mascota.dni_propietario)}</td>
               <td>{calcularEdad(mascota.fecha_nacimiento)} años</td>
