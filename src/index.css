@@ -10,6 +10,10 @@
   --color-accent: #e8f0fe;
   --color-muted-foreground: #7c82a0;
   --color-destructive: #e03e3e;
+  --color-verde: #1fa971;
+  --color-verde-fondo: #e3f7ec;
+  --color-morado: #8b5cf6;
+  --color-morado-fondo: #f1ebfb;
   --color-border: rgba(28, 32, 51, 0.08);
   --radius: 0.625rem;
 
