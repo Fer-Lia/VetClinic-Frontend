@@ -79,6 +79,25 @@ h1, h2, h3 {
   cursor: pointer;
 }
 
+.boton-eliminar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  background: transparent;
+  border: none;
+  color: var(--color-destructive);
+  font-family: var(--font-texto);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.acciones-fila {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
 .avatar {
   display: flex;
   align-items: center;

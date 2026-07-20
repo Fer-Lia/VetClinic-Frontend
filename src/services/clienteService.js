@@ -21,3 +21,12 @@ export async function crearCliente(cliente) {
   }
   return response.json()
 }
+
+export async function eliminarCliente(dni) {
+  const response = await fetch(`${API_URL}/clientes/${dni}`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    throw new Error(`Error al eliminar cliente: ${response.status}`)
+  }
+}

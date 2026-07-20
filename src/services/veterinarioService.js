@@ -9,3 +9,12 @@ export async function obtenerVeterinarios() {
 
   return response.json()
 }
+
+export async function eliminarVeterinario(dni) {
+  const response = await fetch(`${API_URL}/veterinarios/${dni}`, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    throw new Error(`Error al eliminar veterinario: ${response.status}`)
+  }
+}
