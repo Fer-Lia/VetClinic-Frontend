@@ -39,7 +39,9 @@ function ModalNuevoCliente({ abierto, onCerrar, onGuardar }) {
     try {
       await onGuardar(formulario)
     } catch (err) {
-      setError(err.message)
+      // El backend devuelve 500 para DNI duplicado en vez de 409, así que no
+      // podemos distinguir el motivo real del error a partir del status.
+      setError('DNI duplicado')
     } finally {
       setEnviando(false)
     }
@@ -67,7 +69,14 @@ function ModalNuevoCliente({ abierto, onCerrar, onGuardar }) {
 
         <div className="campo">
           <label htmlFor="dni">DNI</label>
-          <input id="dni" name="dni" value={formulario.dni} onChange={manejarCambio} required />
+          <input
+            id="dni"
+            name="dni"
+            value={formulario.dni}
+            onChange={manejarCambio}
+            className={error ? 'campo-invalido' : ''}
+            required
+          />
         </div>
 
         <div className="campo">
