@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Search, Plus, Pencil, Phone } from 'lucide-react'
-import { obtenerVeterinarios } from '../services/veterinarioService'
+import { Search, Plus, Pencil, Phone, Trash2 } from 'lucide-react'
+import { obtenerVeterinarios, eliminarVeterinario } from '../services/veterinarioService'
+import ModalConfirmacion from '../components/ModalConfirmacion'
+import Aviso from '../components/Aviso'
 import './Veterinarios.css'
 
 function Veterinarios() {
@@ -8,6 +10,8 @@ function Veterinarios() {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
   const [busqueda, setBusqueda] = useState('')
+  const [veterinarioAEliminar, setVeterinarioAEliminar] = useState(null)
+  const [mensajeExito, setMensajeExito] = useState(null)
 
   useEffect(() => {
     let ignore = false
@@ -30,6 +34,15 @@ function Veterinarios() {
       ignore = true
     }
   }, [])
+
+  async function manejarEliminar() {
+    await eliminarVeterinario(veterinarioAEliminar.dni)
+    setVeterinarios((anteriores) =>
+      anteriores.filter((veterinario) => veterinario.dni !== veterinarioAEliminar.dni)
+    )
+    setVeterinarioAEliminar(null)
+    setMensajeExito('Veterinario eliminado correctamente')
+  }
 
   if (cargando) {
     return <p>Cargando veterinarios...</p>
@@ -82,12 +95,28 @@ function Veterinarios() {
             <div className="contacto-linea">
               <Phone size={14} /> {veterinario.telefono}
             </div>
-            <button className="boton-editar">
-              <Pencil size={14} /> Editar
-            </button>
+            <div className="acciones-fila">
+              <button className="boton-editar">
+                <Pencil size={14} /> Editar
+              </button>
+              <button className="boton-eliminar" onClick={() => setVeterinarioAEliminar(veterinario)}>
+                <Trash2 size={14} /> Eliminar
+              </button>
+            </div>
           </div>
         ))}
       </div>
+
+      <ModalConfirmacion
+        abierto={veterinarioAEliminar !== null}
+        mensaje={veterinarioAEliminar ? `¿Eliminar a ${veterinarioAEliminar.nombre} ${veterinarioAEliminar.apellido}?` : ''}
+        onCerrar={() => setVeterinarioAEliminar(null)}
+        onConfirmar={manejarEliminar}
+      />
+
+      {mensajeExito && (
+        <Aviso mensaje={mensajeExito} onCerrar={() => setMensajeExito(null)} />
+      )}
     </main>
   )
 }

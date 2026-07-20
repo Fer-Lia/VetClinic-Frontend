@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Search, Plus, Pencil, PawPrint } from 'lucide-react'
-import { obtenerMascotas } from '../services/mascotaService'
+import { Search, Plus, Pencil, PawPrint, Trash2 } from 'lucide-react'
+import { obtenerMascotas, eliminarMascota } from '../services/mascotaService'
 import { obtenerClientes } from '../services/clienteService'
+import ModalConfirmacion from '../components/ModalConfirmacion'
+import Aviso from '../components/Aviso'
 import './Mascotas.css'
 
 function calcularEdad(fechaNacimiento) {
@@ -23,6 +25,8 @@ function Mascotas() {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
   const [busqueda, setBusqueda] = useState('')
+  const [mascotaAEliminar, setMascotaAEliminar] = useState(null)
+  const [mensajeExito, setMensajeExito] = useState(null)
 
   useEffect(() => {
     let ignore = false
@@ -50,6 +54,15 @@ function Mascotas() {
   function nombreDueño(dni) {
     const cliente = clientes.find((cliente) => cliente.dni === dni)
     return cliente ? `${cliente.nombre} ${cliente.apellido}` : 'Desconocido'
+  }
+
+  async function manejarEliminar() {
+    await eliminarMascota(mascotaAEliminar.id_mascota)
+    setMascotas((anteriores) =>
+      anteriores.filter((mascota) => mascota.id_mascota !== mascotaAEliminar.id_mascota)
+    )
+    setMascotaAEliminar(null)
+    setMensajeExito('Mascota eliminada correctamente')
   }
 
   if (cargando) {
@@ -113,14 +126,30 @@ function Mascotas() {
               <td>{nombreDueño(mascota.dni_propietario)}</td>
               <td>{calcularEdad(mascota.fecha_nacimiento)} años</td>
               <td>
-                <button className="boton-editar">
-                  <Pencil size={14} /> Editar
-                </button>
+                <div className="acciones-fila">
+                  <button className="boton-editar">
+                    <Pencil size={14} /> Editar
+                  </button>
+                  <button className="boton-eliminar" onClick={() => setMascotaAEliminar(mascota)}>
+                    <Trash2 size={14} /> Eliminar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <ModalConfirmacion
+        abierto={mascotaAEliminar !== null}
+        mensaje={mascotaAEliminar ? `¿Eliminar a ${mascotaAEliminar.nombre}?` : ''}
+        onCerrar={() => setMascotaAEliminar(null)}
+        onConfirmar={manejarEliminar}
+      />
+
+      {mensajeExito && (
+        <Aviso mensaje={mensajeExito} onCerrar={() => setMensajeExito(null)} />
+      )}
     </main>
   )
 }

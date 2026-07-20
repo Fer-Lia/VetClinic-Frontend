@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { Search, Plus, Mail, Phone, Pencil, MapPin } from 'lucide-react'
-import { obtenerClientes, crearCliente } from '../services/clienteService'
+import { Search, Plus, Mail, Phone, Pencil, MapPin, Trash2 } from 'lucide-react'
+import { obtenerClientes, crearCliente, eliminarCliente } from '../services/clienteService'
 import { obtenerMascotas } from '../services/mascotaService'
 import ModalNuevoCliente from '../components/ModalNuevoCliente'
+import ModalConfirmacion from '../components/ModalConfirmacion'
 import Aviso from '../components/Aviso'
 import './Clientes.css'
 
@@ -14,6 +15,7 @@ function Clientes() {
   const [busqueda, setBusqueda] = useState('')
   const [modalAbierto, setModalAbierto] = useState(false)
   const [mensajeExito, setMensajeExito] = useState(null)
+  const [clienteAEliminar, setClienteAEliminar] = useState(null)
 
   useEffect(() => {
     let ignore = false
@@ -47,6 +49,13 @@ function Clientes() {
     setClientes((anteriores) => [...anteriores, clienteCreado])
     setModalAbierto(false)
     setMensajeExito('Cliente creado correctamente')
+  }
+
+  async function manejarEliminar() {
+    await eliminarCliente(clienteAEliminar.dni)
+    setClientes((anteriores) => anteriores.filter((cliente) => cliente.dni !== clienteAEliminar.dni))
+    setClienteAEliminar(null)
+    setMensajeExito('Cliente eliminado correctamente')
   }
 
   if (cargando) {
@@ -124,9 +133,14 @@ function Clientes() {
                 <span className="badge-mascotas">{contarMascotas(cliente.dni)}</span>
               </td>
               <td>
-                <button className="boton-editar">
-                  <Pencil size={14} /> Editar
-                </button>
+                <div className="acciones-fila">
+                  <button className="boton-editar">
+                    <Pencil size={14} /> Editar
+                  </button>
+                  <button className="boton-eliminar" onClick={() => setClienteAEliminar(cliente)}>
+                    <Trash2 size={14} /> Eliminar
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
@@ -137,6 +151,13 @@ function Clientes() {
         abierto={modalAbierto}
         onCerrar={() => setModalAbierto(false)}
         onGuardar={manejarGuardar}
+      />
+
+      <ModalConfirmacion
+        abierto={clienteAEliminar !== null}
+        mensaje={clienteAEliminar ? `¿Eliminar a ${clienteAEliminar.nombre} ${clienteAEliminar.apellido}?` : ''}
+        onCerrar={() => setClienteAEliminar(null)}
+        onConfirmar={manejarEliminar}
       />
 
       {mensajeExito && (
