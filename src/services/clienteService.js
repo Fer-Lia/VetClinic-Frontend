@@ -9,3 +9,15 @@ export async function obtenerClientes() {
 
   return response.json()
 }
+
+export async function crearCliente(cliente) {
+  const response = await fetch(`${API_URL}/clientes`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(cliente),
+  })
+  if (!response.ok) {
+    throw new Error(`Error al crear cliente: ${response.status}`)
+  }
+  return response.json()
+}

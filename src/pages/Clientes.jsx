@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Search, Plus, Mail, Phone, Pencil, MapPin } from 'lucide-react'
-import { obtenerClientes } from '../services/clienteService'
+import { obtenerClientes, crearCliente } from '../services/clienteService'
 import { obtenerMascotas } from '../services/mascotaService'
+import ModalNuevoCliente from '../components/ModalNuevoCliente'
+import Aviso from '../components/Aviso'
 import './Clientes.css'
 
 function Clientes() {
@@ -10,6 +12,8 @@ function Clientes() {
   const [cargando, setCargando] = useState(true)
   const [error, setError] = useState(null)
   const [busqueda, setBusqueda] = useState('')
+  const [modalAbierto, setModalAbierto] = useState(false)
+  const [mensajeExito, setMensajeExito] = useState(null)
 
   useEffect(() => {
     let ignore = false
@@ -36,6 +40,13 @@ function Clientes() {
 
   function contarMascotas(dni) {
     return mascotas.filter((mascota) => mascota.dni_propietario === dni).length
+  }
+
+  async function manejarGuardar(datosCliente) {
+    const clienteCreado = await crearCliente(datosCliente)
+    setClientes((anteriores) => [...anteriores, clienteCreado])
+    setModalAbierto(false)
+    setMensajeExito('Cliente creado correctamente')
   }
 
   if (cargando) {
@@ -67,7 +78,7 @@ function Clientes() {
               onChange={(evento) => setBusqueda(evento.target.value)}
             />
           </div>
-          <button className="boton-primario">
+          <button className="boton-primario" onClick={() => setModalAbierto(true)}>
             <Plus size={16} />
             Nuevo
           </button>
@@ -121,6 +132,16 @@ function Clientes() {
           ))}
         </tbody>
       </table>
+
+      <ModalNuevoCliente
+        abierto={modalAbierto}
+        onCerrar={() => setModalAbierto(false)}
+        onGuardar={manejarGuardar}
+      />
+
+      {mensajeExito && (
+        <Aviso mensaje={mensajeExito} onCerrar={() => setMensajeExito(null)} />
+      )}
     </main>
   )
 }
