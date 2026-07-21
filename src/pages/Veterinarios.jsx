@@ -80,32 +80,46 @@ function Veterinarios() {
         </div>
       </div>
 
-      <div className="grid-veterinarios">
-        {veterinariosFiltrados.map((veterinario) => (
-          <div className="tarjeta-veterinario" key={veterinario.dni}>
-            <div className="veterinario-cabecera">
-              <span className="avatar">
-                {veterinario.nombre[0]}{veterinario.apellido[0]}
-              </span>
-              <div>
-                <div>{veterinario.nombre} {veterinario.apellido}</div>
-                <div className="veterinarios-subtitulo">{veterinario.especialidad}</div>
-              </div>
-            </div>
-            <div className="contacto-linea">
-              <Phone size={14} /> {veterinario.telefono}
-            </div>
-            <div className="acciones-fila">
-              <button className="boton-editar">
-                <Pencil size={14} /> Editar
-              </button>
-              <button className="boton-eliminar" onClick={() => setVeterinarioAEliminar(veterinario)}>
-                <Trash2 size={14} /> Eliminar
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      <table className="tabla-veterinarios">
+        <thead>
+          <tr>
+            <th>Veterinario</th>
+            <th>Especialidad</th>
+            <th>Teléfono</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {veterinariosFiltrados.map((veterinario) => (
+            <tr key={veterinario.dni}>
+              <td>
+                <div className="veterinario-info">
+                  <span className="avatar">
+                    {veterinario.nombre[0]}{veterinario.apellido[0]}
+                  </span>
+                  <div>{veterinario.nombre} {veterinario.apellido}</div>
+                </div>
+              </td>
+              <td>{veterinario.especialidad}</td>
+              <td>
+                <div className="contacto-linea">
+                  <Phone size={14} /> {veterinario.telefono}
+                </div>
+              </td>
+              <td>
+                <div className="acciones-fila">
+                  <button className="boton-editar">
+                    <Pencil size={14} /> Editar
+                  </button>
+                  <button className="boton-eliminar" onClick={() => setVeterinarioAEliminar(veterinario)}>
+                    <Trash2 size={14} /> Eliminar
+                  </button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       <ModalConfirmacion
         abierto={veterinarioAEliminar !== null}
