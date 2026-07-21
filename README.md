@@ -21,12 +21,16 @@ API REST en FastAPI + PostgreSQL, desplegada de forma independiente:
 ```
 VetClinic-Frontend/
 ├── src/
-│   ├── main.jsx        # Punto de entrada, monta React en el DOM
-│   └── App.jsx         # Componente raíz de la aplicación
-├── index.html          # HTML base servido por Vite
-├── vite.config.js       # Configuración de Vite y sus plugins
-├── package.json         # Dependencias y scripts del proyecto
-├── .env                 # Variables de entorno (no versionado)
+│   ├── main.jsx                  # Punto de entrada, monta React en el DOM
+│   ├── App.jsx                   # Componente raíz, define las rutas
+│   ├── index.css                 # Variables globales y estilos compartidos
+│   ├── components/               # Componentes reutilizables (modales, aviso, navegación)
+│   ├── pages/                    # Una pantalla por ruta (Dashboard, Clientes, Mascotas, Veterinarios)
+│   └── services/                 # Llamadas a la API (fetch), sin lógica de negocio en las vistas
+├── index.html                    # HTML base servido por Vite
+├── vite.config.js                # Configuración de Vite y sus plugins
+├── package.json                  # Dependencias y scripts del proyecto
+├── .env                          # Variables de entorno (no versionado)
 └── .gitignore
 ```
 
