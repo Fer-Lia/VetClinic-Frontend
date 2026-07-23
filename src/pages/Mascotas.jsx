@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Search, Plus, Pencil, PawPrint, Trash2 } from 'lucide-react'
-import { obtenerMascotas, eliminarMascota } from '../services/mascotaService'
+import { obtenerMascotas, eliminarMascota, crearMascota } from '../services/mascotaService'
 import { obtenerClientes } from '../services/clienteService'
 import ModalConfirmacion from '../components/ModalConfirmacion'
+import ModalNuevaMascota from '../components/ModalNuevaMascota'
 import Aviso from '../components/Aviso'
 import './Mascotas.css'
 
@@ -27,6 +28,7 @@ function Mascotas() {
   const [busqueda, setBusqueda] = useState('')
   const [mascotaAEliminar, setMascotaAEliminar] = useState(null)
   const [mensajeExito, setMensajeExito] = useState(null)
+  const [modalAbierto, setModalAbierto] = useState(false)
 
   useEffect(() => {
     let ignore = false
@@ -65,6 +67,13 @@ function Mascotas() {
     setMensajeExito('Mascota eliminada correctamente')
   }
 
+  async function manejarGuardar(datosMascota) {
+    const mascotaCreada = await crearMascota(datosMascota)
+    setMascotas((anteriores) => [...anteriores, mascotaCreada])
+    setModalAbierto(false)
+    setMensajeExito('Mascota creada correctamente')
+  }
+
   if (cargando) {
     return <p>Cargando mascotas...</p>
   }
@@ -94,7 +103,7 @@ function Mascotas() {
               onChange={(evento) => setBusqueda(evento.target.value)}
             />
           </div>
-          <button className="boton-primario">
+          <button className="boton-primario" onClick={() => setModalAbierto(true)}>
             <Plus size={16} />
             Nuevo
           </button>
@@ -139,6 +148,13 @@ function Mascotas() {
           ))}
         </tbody>
       </table>
+
+      <ModalNuevaMascota
+        abierto={modalAbierto}
+        clientes={clientes}
+        onCerrar={() => setModalAbierto(false)}
+        onGuardar={manejarGuardar}
+      />
 
       <ModalConfirmacion
         abierto={mascotaAEliminar !== null}

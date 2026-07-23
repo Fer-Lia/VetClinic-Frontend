@@ -10,6 +10,18 @@ export async function obtenerMascotas() {
   return response.json()
 }
 
+export async function crearMascota(mascota) {
+  const response = await fetch(`${API_URL}/mascotas`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(mascota),
+  })
+  if (!response.ok) {
+    throw new Error(`Error al crear mascota: ${response.status}`)
+  }
+  return response.json()
+}
+
 export async function eliminarMascota(idMascota) {
   const response = await fetch(`${API_URL}/mascotas/${idMascota}`, {
     method: 'DELETE',
