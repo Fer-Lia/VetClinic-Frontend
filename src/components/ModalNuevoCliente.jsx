@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { X } from 'lucide-react'
-import './ModalNuevoCliente.css'
+import '../styles/ModalFormulario.css'
 
 const formularioVacio = {
   nombre: '',
@@ -48,7 +48,7 @@ function ModalNuevoCliente({ abierto, onCerrar, onGuardar }) {
   }
 
   return (
-    <dialog ref={dialogRef} className="modal-cliente" onCancel={onCerrar}>
+    <dialog ref={dialogRef} className="modal-formulario" onCancel={onCerrar}>
       <form onSubmit={manejarEnvio}>
         <div className="modal-cabecera">
           <h2>Nuevo cliente</h2>
